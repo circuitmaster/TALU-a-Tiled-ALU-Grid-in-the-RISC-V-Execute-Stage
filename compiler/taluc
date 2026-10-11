@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# taluc -- compile annotated C loops to a TALU grid configuration.
+#
+#   C  --clang-->  LLVM IR  --TALUMap pass-->  kernel descriptor (JSON)
+#      --mapc.py-->  GCFG/GCFGI/GFLOW assembly
+#
+# usage: taluc <in.c> [-o out.s] [--avl N] [--kernel name] [--list] [--keep]
+set -e
+HERE="$(cd "$(dirname "$0")" && pwd)"
+CLANG=${CLANG:-clang-20}
+OPT=${OPT:-opt-20}
+SRC=""; OUT=""; AVL=1024; KERNEL=""; LIST=""; KEEP=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -o) OUT="$2"; shift 2;;
+    --avl) AVL="$2"; shift 2;;
+    --kernel) KERNEL="--kernel $2"; shift 2;;
+    --list) LIST="--list"; shift;;
+    --keep) KEEP=1; shift;;
+    *) SRC="$1"; shift;;
+  esac
+done
+[ -n "$SRC" ] || { echo "usage: taluc <in.c> [-o out.s] [--avl N] [--kernel name]"; exit 1; }
+
+B="$HERE/build"; mkdir -p "$B"
+NAME=$(basename "$SRC" .c)
+
+# 1. C -> LLVM IR. -O1 canonicalizes the loops (rotated, IV promoted) without
+#    unrolling or vectorizing them, which is the form the pass matches.
+$CLANG -O1 -fno-unroll-loops -fno-vectorize -fno-slp-vectorize \
+       -emit-llvm -S "$SRC" -o "$B/$NAME.ll"
+
+# 2. run the mapping pass -> kernel descriptors
+TALU_JSON="$B/$NAME.talu.json" \
+  $OPT -load-pass-plugin "$HERE/TALUMap.so" -passes=talu-map \
+       -disable-output "$B/$NAME.ll"
+
+# 3. descriptors -> grid configuration + streaming program
+if [ -n "$OUT" ]; then
+  python3 "$HERE/mapc.py" "$B/$NAME.talu.json" --avl "$AVL" $KERNEL $LIST -o "$OUT"
+else
+  python3 "$HERE/mapc.py" "$B/$NAME.talu.json" --avl "$AVL" $KERNEL $LIST
+fi
+[ -n "$KEEP" ] || rm -f "$B/$NAME.ll"
