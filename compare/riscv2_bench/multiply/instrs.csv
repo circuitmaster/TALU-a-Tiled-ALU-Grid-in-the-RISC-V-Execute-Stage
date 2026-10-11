@@ -1,0 +1,6 @@
+//==========================
+// element-wise multiply, AVL elements
+//==========================
+vld, v0, #0
+vld, v1, #2048
+vmul, v2, v0, v1

@@ -1,0 +1,36 @@
+diff --git a/sim/Makefile b/sim/Makefile
+index f2569cc..7f4b4a1 100644
+--- a/sim/Makefile
++++ b/sim/Makefile
+@@ -101,7 +101,7 @@ $(PROJ_DIR)/obj_dir/Vvproc_top.mk: verilator-version-check $(VPROC_CONFIG_PKG)
+ 	    src="cv32e40x_pkg.sv if_xif.sv if_c_obi.sv";                          \
+ 	    src="$$src cv32e40x_sim_clock_gate.sv";                               \
+ 	fi;                                                                       \
+-	verilator --unroll-count 1024 -Wno-WIDTH -Wno-PINMISSING -Wno-UNOPTFLAT   \
++	verilator --unroll-count 1024 -Wno-fatal -Wno-WIDTH -Wno-PINMISSING -Wno-UNOPTFLAT   \
+ 	    -Wno-UNSIGNED -Wno-IMPLICIT -Wno-LITENDIAN -Wno-CASEINCOMPLETE        \
+ 	    -Wno-SYMRSVDWORD -Wno-BLKANDNBLK -Wno-BLKSEQ -Wno-SYNCASYNCNET        \
+ 	    -Wno-COMBDLY                                                          \
+diff --git a/sim/verilator_main.cpp b/sim/verilator_main.cpp
+index 6658878..6644226 100644
+--- a/sim/verilator_main.cpp
++++ b/sim/verilator_main.cpp
+@@ -180,7 +180,10 @@ int main(int argc, char **argv) {
+ 
+             int end_cnt    = 0, // count number of cycles after address 0 was requested
+                 abort_cnt  = 0; // count number of cycles since mem_req_o last toggled
++            unsigned cycle_cnt = 0, prog_cycles = 0; // total cycles until program end
+             while (end_cnt < extra_cycles) {
++                cycle_cnt++;
++                if (end_cnt == 0) prog_cycles = cycle_cnt; // freeze at program end
+ 
+                 // if ABORT_CYCLES is defined, then it specifies the number of cycles after which
+                 // simulation is aborted in case there is no activity on the memory interface
+@@ -257,6 +260,7 @@ int main(int argc, char **argv) {
+                 }
+                 abort_cnt = (top->mem_req_o == mem_req_o_tmp) ? abort_cnt + 1 : 0;
+             }
++            fprintf(stderr, "PROG_CYCLES %u\n", prog_cycles);
+         }
+ 
+         // write dump file

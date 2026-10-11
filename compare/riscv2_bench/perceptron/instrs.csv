@@ -1,0 +1,10 @@
+//==========================
+// perceptron: y = step(w.x + b), AVL-element dot + bias + compare
+//==========================
+vld, v0, #0
+vld, v1, #2048
+vmul, v2, v0, v1
+vradd, v3, v2
+vaddi, v3, v3, #100
+vandi, v4, v4, #0
+vslt, v5, v4, v3

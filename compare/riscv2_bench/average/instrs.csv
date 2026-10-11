@@ -1,0 +1,6 @@
+//==========================
+// average = (reduce-sum x) >> 10, AVL elements
+//==========================
+vld, v0, #0
+vradd, v1, v0
+vsrai, v1, v1, #10

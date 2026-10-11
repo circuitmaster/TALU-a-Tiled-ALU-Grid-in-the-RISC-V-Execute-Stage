@@ -1,0 +1,12 @@
+//==========================
+// (a+b)^8 : vadd then square 3x. AVL elements, 4 lanes.
+//==========================
+//load a, b
+vld, v0, #0
+vld, v1, #2048
+//s = a + b
+vadd, v2, v0, v1
+//s^2, s^4, s^8 (dependent chain)
+vmul, v3, v2, v2
+vmul, v4, v3, v3
+vmul, v5, v4, v4

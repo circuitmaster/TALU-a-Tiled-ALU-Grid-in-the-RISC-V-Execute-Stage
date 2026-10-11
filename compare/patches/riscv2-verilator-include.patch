@@ -1,0 +1,11 @@
+diff --git a/vector_simulator/vector_driver.sv b/vector_simulator/vector_driver.sv
+index da1a310..9f04cf0 100755
+--- a/vector_simulator/vector_driver.sv
++++ b/vector_simulator/vector_driver.sv
+@@ -1,4 +1,6 @@
++`ifdef MODEL_TECH
+ `include "vstructs.sv"
++`endif
+ module vector_driver #(
+     parameter int DEPTH            = 4 ,
+     parameter int DATA_WIDTH       = 32,
