@@ -1,0 +1,16 @@
+# simulation / build products
+build/
+*.vcd
+__pycache__/
+
+# compiler build products
+compiler/build/
+compiler/*.so
+
+# vector-processor baselines: fetched + built by compare/setup_baselines.sh
+compare/build/
+compare/RISC-V-Vector/
+compare/vicuna/
+
+results/
+physical/
