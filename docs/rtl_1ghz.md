@@ -48,6 +48,6 @@ Grid code pays the deeper fill once per `GFLOW` pass, so the cost vanishes
 with vector length (`make table1`, `make numbers`). Scalar code
 pays +1 cycle per taken branch (T4) and +2 per MUL (T3).
 
-Post-route, the baseline closes 424 MHz at a relaxed 2.5 ns target (a lower
-bound, the run was not pushed) and the 1 GHz core 1032 MHz at 1.0 ns, for
-4474 → 6898 flops, +54 % (Sec. V of the paper).
+Post-route, with the same flow and constraints, the baseline closes 674 MHz
+at a 1.5 ns target (+0.017 ns slack) and the 1 GHz core 1032 MHz at 1.0 ns,
+1.53× faster for 4474 → 6898 flops, +54 % (Sec. V of the paper).

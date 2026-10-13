@@ -2,8 +2,7 @@
 
 Artifact for the paper
 
-> **TALU: A Reconfigurable Tiled-ALU Grid in the RISC-V Execute Stage for
-> Low-Cost Spatial Reduction and Deep Operation Chaining**
+> **TALU: A Reconfigurable Tiled-ALU Grid for RISC-V**
 > Ali Emre Oztas, Can Erim Karsal, Mahir Demir, Mikel Luján.
 > IEEE ISCAS (under review).
 
@@ -157,8 +156,7 @@ repository's own examples; `compare/riscv2_bench/` and
 
 ```bibtex
 @inproceedings{talu,
-  title     = {{TALU}: A Reconfigurable Tiled-{ALU} Grid in the {RISC-V} Execute
-               Stage for Low-Cost Spatial Reduction and Deep Operation Chaining},
+  title     = {{TALU}: A Reconfigurable Tiled-{ALU} Grid for {RISC-V}},
   author    = {Oztas, Ali Emre and Karsal, Can Erim and Demir, Mahir and Luj{\'a}n, Mikel},
   booktitle = {IEEE International Symposium on Circuits and Systems (ISCAS)},
   note      = {under review}
