@@ -162,3 +162,12 @@ repository's own examples; `compare/riscv2_bench/` and
   note      = {under review}
 }
 ```
+
+## License
+
+Copyright 2026 Ali Emre Oztas, Can Erim Karsal, Mahir Demir and Mikel Luján.
+Licensed under the [Apache License 2.0](LICENSE); see also [NOTICE](NOTICE).
+
+The RISC-V² and Vicuna baselines are not part of this repository.
+`compare/setup_baselines.sh` fetches them from their own repositories, where
+they remain under their own licences (MIT and Solderpad Hardware License 2.1).

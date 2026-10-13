@@ -1,0 +1,10 @@
+TALU: a Tiled-ALU Grid in the RISC-V Execute Stage
+Copyright 2026 Ali Emre Oztas, Can Erim Karsal, Mahir Demir and Mikel Luján
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The RISC-V^2 and Vicuna vector processors used as baselines are not part of
+this repository: compare/setup_baselines.sh fetches them from their own
+repositories, where they remain under their own licences (MIT and Solderpad
+Hardware License 2.1, respectively). The two patches in compare/patches/
+modify their simulation harnesses only.
